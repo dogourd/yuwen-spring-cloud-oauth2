@@ -1,0 +1,11 @@
+server:
+  port: 5000
+spring:
+  application:
+    name: oauth2-eureka-server
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:5000/eureka/

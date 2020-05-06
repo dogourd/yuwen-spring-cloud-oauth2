@@ -1,0 +1,24 @@
+server:
+  port: 6000
+spring:
+  application:
+    name: eureka-client-oauth2-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5000/eureka/
+  instance:
+    prefer-ip-address: true
+zuul:
+  ignored-services: '*'
+  prefix: /api/v1
+  sensitive-headers:
+  routes:
+    oauth-server:
+      path: /auth/**
+      service-id: eureka-client-oauth2-authenticate-server
+      strip-prefix: false
+ribbon:
+  eager-load:
+    enabled: true
+  ReadTimeout: 10000
