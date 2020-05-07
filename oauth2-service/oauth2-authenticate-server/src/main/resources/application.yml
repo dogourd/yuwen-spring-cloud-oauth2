@@ -3,8 +3,6 @@ server:
   servlet:
     context-path: /oauth2-authenticate-server
 spring:
-  messages:
-    basename:
   application:
     name: eureka-client-oauth2-authenticate-server
   datasource:

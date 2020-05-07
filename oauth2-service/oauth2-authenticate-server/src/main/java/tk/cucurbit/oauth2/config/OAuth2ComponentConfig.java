@@ -1,6 +1,9 @@
 package tk.cucurbit.oauth2.config;
 
 import com.alibaba.fastjson.JSON;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +23,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import tk.cucurbit.oauth2.entity.OAuth2User;
 import tk.cucurbit.oauth2.enums.ResponseCode;
 import tk.cucurbit.oauth2.vo.CommonResponse;
-
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Configuration
