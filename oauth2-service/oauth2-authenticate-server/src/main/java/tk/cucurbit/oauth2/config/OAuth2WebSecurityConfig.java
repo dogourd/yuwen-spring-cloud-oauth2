@@ -4,11 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,7 +57,8 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .and()
-                .httpBasic().authenticationEntryPoint(authenticationEntryPoint);
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint);
     }
 
 
@@ -68,7 +73,20 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider usernamePasswordAuthenticationProvider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider usernamePasswordAuthenticationProvider = new DaoAuthenticationProvider(){
+            @Override
+            protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+                if (authentication.getCredentials() == null) {
+                    logger.debug("Authentication failed: no credentials provided");
+                    throw new BadCredentialsException("用户名密码错误");
+                }
+                String presentedPassword = authentication.getCredentials().toString();
+                if (!this.getPasswordEncoder().matches(presentedPassword, userDetails.getPassword())) {
+                    logger.debug("Authentication failed: password does not match stored value");
+                    throw new BadCredentialsException("用户名密码错误");
+                }
+            }
+        };
         usernamePasswordAuthenticationProvider.setUserDetailsService(userDetailsService);
         usernamePasswordAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         usernamePasswordAuthenticationProvider.setHideUserNotFoundExceptions(false);

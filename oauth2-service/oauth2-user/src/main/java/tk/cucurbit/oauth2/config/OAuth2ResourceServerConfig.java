@@ -13,6 +13,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     }
 
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         super.configure(http);

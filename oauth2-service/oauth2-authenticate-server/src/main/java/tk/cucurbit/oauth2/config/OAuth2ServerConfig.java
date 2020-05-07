@@ -3,7 +3,6 @@ package tk.cucurbit.oauth2.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -23,18 +22,22 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private final OAuth2ClientDetailsService clientDetailsService;
     private final AuthenticationManager authenticationManager;
     private final AuthenticationEntryPoint authenticationEntryPoint;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenStore tokenStore;
+    private final TokenStore redisTokenStore;
     private final TokenEnhancer tokenEnhancer;
 
-    public OAuth2ServerConfig(OAuth2ClientDetailsService clientDetailsService, AuthenticationManager authenticationManager, OAuth2WebResponseExceptionTranslator exceptionTranslator, AuthenticationEntryPoint authenticationEntryPoint, TokenStore tokenStore, TokenEnhancer tokenEnhancer, PasswordEncoder passwordEncoder) {
+    public OAuth2ServerConfig(
+            OAuth2ClientDetailsService clientDetailsService,
+            AuthenticationManager authenticationManager,
+            OAuth2WebResponseExceptionTranslator exceptionTranslator,
+            AuthenticationEntryPoint authenticationEntryPoint,
+            TokenStore redisTokenStore,
+            TokenEnhancer tokenEnhancer) {
         this.clientDetailsService = clientDetailsService;
         this.authenticationManager = authenticationManager;
         this.exceptionTranslator = exceptionTranslator;
         this.authenticationEntryPoint = authenticationEntryPoint;
-        this.tokenStore = tokenStore;
+        this.redisTokenStore = redisTokenStore;
         this.tokenEnhancer = tokenEnhancer;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,22 +47,33 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint);
     }
 
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.withClientDetails(clientDetailsService);
     }
 
+
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.exceptionTranslator(exceptionTranslator)
                 .pathMapping("/oauth/token", "/oauth2/token")
-                .tokenStore(tokenStore)
+                .tokenStore(redisTokenStore)
                 .tokenEnhancer(tokenEnhancer)
                 .authenticationManager(authenticationManager);
     }
 
 
-
+//    @Bean
+//    public MessageSource messageSource() {
+//        Locale.setDefault(Locale.CHINA);
+//        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+//
+//        messageSource.setBasename("classpath:messages_zh_CN");
+//
+//        return messageSource;
+//    }
 
 
 
