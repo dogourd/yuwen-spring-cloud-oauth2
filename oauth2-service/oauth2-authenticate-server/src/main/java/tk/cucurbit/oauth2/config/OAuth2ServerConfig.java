@@ -65,37 +65,5 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     }
 
 
-//    @Bean
-//    public MessageSource messageSource() {
-//        Locale.setDefault(Locale.CHINA);
-//        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-//
-//        messageSource.setBasename("classpath:messages_zh_CN");
-//
-//        return messageSource;
-//    }
-
-
-
-//    @Bean(name = "clientAuthenticationManager")
-//    public AuthenticationManager clientAuthenticationManager() {
-//        return authentication -> {
-//            String username = (authentication.getPrincipal() == null) ? "NONE_PROVIDED"
-//                    : authentication.getName();
-//            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
-//            if (clientDetails == null) {
-//                throw new BadCredentialsException("认证服务器未找到客户端应用注册信息");
-//            }
-//            String presentedPassword = authentication.getCredentials().toString();
-//            if (!passwordEncoder.matches(presentedPassword, clientDetails.getClientSecret())) {
-//                throw new BadCredentialsException("客户端应用凭证错误");
-//            }
-//            UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(
-//                    clientDetails, authentication.getCredentials(), clientDetails.getAuthorities());
-//            result.setDetails(authentication.getDetails());
-//
-//            return result;
-//        };
-//    }
 
 }

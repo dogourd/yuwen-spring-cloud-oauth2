@@ -22,11 +22,11 @@ import java.util.Objects;
 @Component
 public class OAuth2WebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
-    private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+    private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
     @Override
     @IgnoreResponseAdvice
-    public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+    public ResponseEntity<OAuth2Exception> translate(Exception e) {
         log.error("authenticate server, WebResponseExceptionTranslator handle exception ", e);
         Throwable[] chain = throwableAnalyzer.determineCauseChain(e);
 

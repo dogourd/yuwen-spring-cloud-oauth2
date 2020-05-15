@@ -1,6 +1,9 @@
 package tk.cucurbit.oauth2.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import tk.cucurbit.oauth2.enums.EnableStatus;

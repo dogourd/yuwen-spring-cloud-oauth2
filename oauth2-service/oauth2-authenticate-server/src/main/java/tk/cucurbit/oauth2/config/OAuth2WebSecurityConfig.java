@@ -59,6 +59,8 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
+
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
     }
 
 
