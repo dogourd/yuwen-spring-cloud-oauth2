@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import tk.cucurbit.oauth2.enums.EnableStatus;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class OAuth2User extends UserEntity implements UserDetails {
+public class OAuth2User extends UserEntity implements UserDetails, Serializable {
 
     List<GrantedAuthority> authorities;
 

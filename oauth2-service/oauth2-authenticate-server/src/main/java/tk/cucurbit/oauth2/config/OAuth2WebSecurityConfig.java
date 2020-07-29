@@ -56,7 +56,10 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().authenticated()
                     .and()
                 .formLogin()
-                    .and()
+                .successHandler((request, response, authentication) -> {
+                    // todo 记录登录日志
+                })
+                .and()
                 .httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
 

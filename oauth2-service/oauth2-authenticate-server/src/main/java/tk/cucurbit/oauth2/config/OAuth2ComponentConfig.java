@@ -14,10 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import tk.cucurbit.oauth2.config.serialize.JacksonRedisTokenStoreSerializationStrategy;
+import tk.cucurbit.oauth2.config.tokenstore.CustomRedisTokenStore;
 import tk.cucurbit.oauth2.entity.OAuth2User;
 import tk.cucurbit.oauth2.enums.ResponseCode;
 import tk.cucurbit.oauth2.vo.CommonResponse;
@@ -68,8 +67,8 @@ public class OAuth2ComponentConfig {
 
     @Bean
     public TokenStore redisTokenStore() {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisTemplate.getConnectionFactory());
-        tokenStore.setSerializationStrategy(new JacksonRedisTokenStoreSerializationStrategy());
+        CustomRedisTokenStore tokenStore = new CustomRedisTokenStore(redisTemplate.getConnectionFactory());
+//        tokenStore.setSerializationStrategy(new JacksonRedisTokenStoreSerializationStrategy());
         tokenStore.setPrefix("oauth2:");
         return tokenStore;
     }

@@ -21,6 +21,7 @@ spring:
     properties:
       hibernate.show_sql: true
       hibernate.format_sql: true
+
 eureka:
   client:
     service-url:
@@ -30,3 +31,16 @@ eureka:
 ribbon:
   eager-load:
     enabled: true
+
+
+feign:
+    client:
+      config:
+        default:
+          connectTimeout: 1000000000
+          readTimeout: 1000000000
+security:
+  oauth2:
+    client:
+      client-id: jianjukeji-client
+      client-secret: admin

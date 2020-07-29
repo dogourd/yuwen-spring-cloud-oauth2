@@ -16,10 +16,13 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     @SuppressWarnings("all")
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-
+        // 方法标记忽略统一响应
         boolean methodDeclaredIgnoreAdvice = returnType.hasMethodAnnotation(IgnoreResponseAdvice.class);
+        // 类标记忽略统一响应
         boolean classDeclaredIgnoreAdvice = returnType.getDeclaringClass().isAnnotationPresent(IgnoreResponseAdvice.class);
-        return !classDeclaredIgnoreAdvice && !methodDeclaredIgnoreAdvice;
+        // 方法返回类型标记忽略统一响应
+        boolean returnObjIgnoreAdvice = returnType.getMethod().getReturnType().isAnnotationPresent(IgnoreResponseAdvice.class);
+        return !returnObjIgnoreAdvice && !classDeclaredIgnoreAdvice && !methodDeclaredIgnoreAdvice;
     }
 
     @Override
@@ -29,10 +32,6 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
 
-        boolean exceptionResovlerThrowException = body instanceof Exception;
-        if (exceptionResovlerThrowException) {
-            return body;
-        }
 
         CommonResponse<Object> commonResponse = new CommonResponse<>(
                 ResponseCode.OAUTH2_SUCCESS.getCode(), ResponseCode.OAUTH2_SUCCESS.getMsg()

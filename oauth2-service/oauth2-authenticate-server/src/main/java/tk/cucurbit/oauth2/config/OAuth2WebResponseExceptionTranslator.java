@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import tk.cucurbit.oauth2.annotations.IgnoreResponseAdvice;
 import tk.cucurbit.oauth2.enums.ResponseCode;
 import tk.cucurbit.oauth2.exceptions.GlobalOAuth2Exception;
 
@@ -25,7 +24,6 @@ public class OAuth2WebResponseExceptionTranslator implements WebResponseExceptio
     private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
     @Override
-    @IgnoreResponseAdvice
     public ResponseEntity<OAuth2Exception> translate(Exception e) {
         log.error("authenticate server, WebResponseExceptionTranslator handle exception ", e);
         Throwable[] chain = throwableAnalyzer.determineCauseChain(e);

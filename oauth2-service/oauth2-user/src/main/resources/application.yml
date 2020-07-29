@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /oauth2-user
 spring:
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
   application:
     name: eureka-client-oauth2-user
   datasource:
@@ -25,5 +29,17 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:5000/eureka/
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     prefer-ip-address: true
+
+security:
+  oauth2:
+    resource:
+      prefer-token-info: false
+      user-info-uri: http://eureka-client-oauth2-user/oauth2-user/
+
+ribbon:
+  eager-load:
+    enabled: true
