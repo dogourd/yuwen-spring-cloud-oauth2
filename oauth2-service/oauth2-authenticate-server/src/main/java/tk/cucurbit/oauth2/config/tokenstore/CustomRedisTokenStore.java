@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -75,17 +74,18 @@ public class CustomRedisTokenStore implements TokenStore {
         objectMapper.addMixIn(OAuth2AccessToken.class, OAuth2AccessTokenMixIn.class);
         objectMapper.activateDefaultTyping(objectMapper.getDeserializationConfig().getPolymorphicTypeValidator());
 
-        SimpleFilterProvider provider = new SimpleFilterProvider();
 
     }
 
-//    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
-    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE)
+    @JsonAutoDetect(
+            fieldVisibility = JsonAutoDetect.Visibility.ANY,
+            getterVisibility = JsonAutoDetect.Visibility.NONE,
+            isGetterVisibility = JsonAutoDetect.Visibility.NONE
+    )
     @JsonDeserialize(using = OAuth2AuthenticationJackson2Deserializer.class)
     public static class OAuth2AuthenticationMixIn {
     }
 
-//    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
     @JsonSerialize(using = OAuth2AccessTokenJacksonSerializer.class)
     @JsonDeserialize(using = OAuth2AccessTokenJacksonDeserializer.class)
     public static class OAuth2AccessTokenMixIn {
@@ -107,9 +107,6 @@ public class CustomRedisTokenStore implements TokenStore {
         this.authenticationKeyGenerator = authenticationKeyGenerator;
     }
 
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;

@@ -64,7 +64,7 @@ public class OAuth2AuthenticationJackson2Deserializer extends JsonDeserializer<O
         String clientId = json.get("clientId").asText();
         String grantType = json.get("grantType").asText();
         String redirectUri = json.get("redirectUri").asText();
-        Boolean approved = json.get("approved").asBoolean();
+        boolean approved = json.get("approved").asBoolean();
         Set<String> responseTypes = mapper.readValue(json.get("responseTypes").traverse(mapper), new TypeReference<Set<String>>() {
         });
         Set<String> scope = mapper.readValue(json.get("scope").traverse(mapper), new TypeReference<Set<String>>() {

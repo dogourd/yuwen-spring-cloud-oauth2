@@ -13,6 +13,8 @@ spring:
       password: 123456
       minimum-idle: 2
       max-lifetime: 8
+  messages:
+    basename: "i18n/messages"
   jpa:
     open-in-view: false
     show-sql: true

@@ -6,11 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -87,29 +82,6 @@ public class OAuth2ComponentConfig {
     }
 
 
-    @Bean(name = "preUserDetailsChecker")
-    public UserDetailsChecker preUserDetailsChecker() {
-        return user -> {
-            if (!user.isAccountNonLocked()) {
-                throw new LockedException("账户已被锁定");
-            }
-            if (!user.isEnabled()) {
-                throw new DisabledException("账户未启用");
-            }
-            if (!user.isAccountNonExpired()) {
-                throw new AccountExpiredException("账户已过期");
-            }
-        };
-    }
-
-    @Bean(name = "postUserDetailsChecker")
-    public UserDetailsChecker postUserDetailsChecker() {
-        return user -> {
-            if (!user.isCredentialsNonExpired()) {
-                throw new CredentialsExpiredException("凭证已过期");
-            }
-        };
-    }
 
 
 }
