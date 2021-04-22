@@ -1,0 +1,16 @@
+keys: 
+    /**
+     * [
+     * currentThreadsBusy, sslImplementationName, paused,
+     * selectorTimeout, modelerType,
+     * connectionCount, acceptCount, threadPriority,
+     * executorTerminationTimeoutMillis, running, portWithOffset,
+     * currentThreadCount, sSLEnabled, sniParseLimit, maxThreads,
+     * sslImplementation, connectionTimeout, tcpNoDelay, maxConnections,
+     * connectionLinger, keepAliveCount, keepAliveTimeout, maxKeepAliveRequests,
+     * localPort, deferAccept, useSendfile, acceptorThreadCount, pollerThreadCount,
+     * daemon, minSpareThreads, useInheritedChannel, alpnSupported,
+     * acceptorThreadPriority, bindOnInit, pollerThreadPriority,
+     * port, portOffset, domain, name, defaultSSLHostConfigName
+     * ]
+     * */
